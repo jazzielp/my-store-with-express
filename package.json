@@ -1,0 +1,11 @@
+{
+  "name": "platzistore",
+  "version": "1.0.0",
+  "description": "This is a practice to create an API in express",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jazziel Puente <Jazziel.puente.v@gmail.com>",
+  "license": "MIT"
+}

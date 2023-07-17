@@ -4,7 +4,10 @@
   "description": "This is a practice to create an API in express",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+
   },
   "author": "Jazziel Puente <Jazziel.puente.v@gmail.com>",
   "license": "MIT",

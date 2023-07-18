@@ -1,7 +1,15 @@
+const pool = require('../lib/connectionDB')
+
 class userService {
+  constructor () {
+    this.pool = pool
+  }
+
   async find () {
+    const result = await this.pool.query('SELECT * FROM product')
     return {
       message: 'Find users',
+      data: result[0],
       code: 200
     }
   }

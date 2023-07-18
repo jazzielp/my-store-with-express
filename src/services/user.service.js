@@ -1,20 +1,13 @@
-const sequelize = require('../lib/sequelize')
+const { models } = require('../lib/sequelize')
 
 class userService {
   async find () {
-    const [data] = await sequelize.query('SELECT * FROM product')
-    return {
-      message: 'Find users',
-      data,
-      code: 200
-    }
+    const result = await models.User.findAll()
+    return result
   }
 
   async findOne (id) {
-    return {
-      message: 'Find user by id: ' + id,
-      code: 200
-    }
+
   }
 
   async create (data) {

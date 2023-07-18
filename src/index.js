@@ -2,7 +2,7 @@ const express = require('express')
 const cors = require('cors')
 
 const routerApi = require('./routers')
-const { logError, errorHandler, boomErrorHandler } = require('./middlewares/error.handler')
+const { logError, errorHandler, boomErrorHandler, ormErrorHandler } = require('./middlewares/error.handler')
 
 const app = express()
 const port = 3000
@@ -17,6 +17,7 @@ app.get('/', (req, res) => {
 routerApi(app)
 
 app.use(logError)
+app.use(ormErrorHandler)
 app.use(errorHandler)
 app.use(boomErrorHandler)
 

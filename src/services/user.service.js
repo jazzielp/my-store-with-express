@@ -1,15 +1,11 @@
-const pool = require('../lib/connectionDB')
+const sequelize = require('../lib/sequelize')
 
 class userService {
-  constructor () {
-    this.pool = pool
-  }
-
   async find () {
-    const result = await this.pool.query('SELECT * FROM product')
+    const [data] = await sequelize.query('SELECT * FROM product')
     return {
       message: 'Find users',
-      data: result[0],
+      data,
       code: 200
     }
   }

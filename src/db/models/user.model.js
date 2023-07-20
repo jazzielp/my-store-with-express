@@ -34,6 +34,11 @@ const UserSchema = {
     field: 'user_name',
     unique: true
   },
+  role: {
+    allowNull: true,
+    type: DataTypes.STRING,
+    defaultValue: 'basic'
+  },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE,

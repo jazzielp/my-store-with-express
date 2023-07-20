@@ -6,13 +6,15 @@ const firstName = Joi.string().max(100)
 const lastName = Joi.string().max(100)
 const email = Joi.string().email()
 const password = Joi.string().min(6).max(200)
+const role = Joi.string().valid('admin', 'basic')
 
 const createUserSchema = Joi.object({
   userName: userName.required(),
   firstName: firstName.required(),
   lastName: lastName.required(),
   email: email.required(),
-  password: password.required()
+  password: password.required(),
+  role: role.required()
 })
 
 const updateUserSchema = Joi.object({
@@ -20,7 +22,8 @@ const updateUserSchema = Joi.object({
   firstName,
   lastName,
   email,
-  password
+  password,
+  role
 })
 
 const getUserSchema = Joi.object({

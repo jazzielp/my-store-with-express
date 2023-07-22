@@ -2,75 +2,76 @@ const express = require('express')
 const router = express.Router()
 const passport = require('passport')
 
-const UserService = require('../services/user.service')
+const CustomerService = require('../services/customer.service')
 const validatorHandler = require('../middlewares/validator.handler')
-const { createUserSchema, updateUserSchema, getUserSchema } = require('../schemas/user.schema')
-const userService = new UserService()
+const { createCustomerSchema, updateCustomerSchema, getCustomerSchema } = require('../schemas/customer.schema')
+const customerService = new CustomerService()
 const { checkRoles } = require('../middlewares/auth.handler')
 
-// Endpoint: GET /users
+// Endpoint: GET /customers
 router.get('/',
   passport.authenticate('jwt', { session: false }),
   checkRoles('admin'),
   async (req, res, next) => {
+    console.log('entra al router')
     try {
-      const result = await userService.find()
+      const result = await customerService.find()
       res.json(result)
     } catch (error) {
       next(error)
     }
   })
 
-// Endpoint: GET /users/:id
+// Endpoint: GET /customers/:id
 router.get('/:id',
-  validatorHandler(getUserSchema, 'params'),
+  validatorHandler(getCustomerSchema, 'params'),
   checkRoles('admin'),
   async (req, res, next) => {
     try {
       const { id } = req.params
-      const result = await userService.findOne(id)
+      const result = await customerService.findOne(id)
       res.json(result)
     } catch (error) {
       next(error)
     }
   })
 
-// Endpoint: POST /users
+// Endpoint: POST /customers
 router.post('/',
-  validatorHandler(createUserSchema, 'body'),
+  validatorHandler(createCustomerSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body
-      const result = await userService.create(body)
+      const result = await customerService.create(body)
       res.json(result)
     } catch (error) {
       next(error)
     }
   })
 
-// Endpoint: PUT /users/:id
+// Endpoint: PUT /customers/:id
 router.put('/:id',
-  validatorHandler(getUserSchema, 'params'),
-  validatorHandler(updateUserSchema, 'body'),
+  validatorHandler(getCustomerSchema, 'params'),
+  validatorHandler(updateCustomerSchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params
       const body = req.body
-      const result = await userService.update(id, body)
+      const result = await customerService.update(id, body)
       res.json(result)
     } catch (error) {
       next(error)
     }
   })
 
-// Endpoint: DELETE /users/:id
+// Endpoint: DELETE /customers/:id
 router.delete('/:id',
   checkRoles('admin'),
-  validatorHandler(getUserSchema, 'params'),
+  validatorHandler(getCustomerSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params
-      const result = await userService.delete(id)
+      const result = await customerService.delete(id)
       res.json(result)
     } catch (error) {
       next(error)

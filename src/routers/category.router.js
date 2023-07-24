@@ -2,73 +2,76 @@ const express = require('express')
 const router = express.Router()
 const passport = require('passport')
 
-const CustomerService = require('../services/customer.service')
+const CategoryService = require('../services/category.service')
 const validatorHandler = require('../middlewares/validator.handler')
-const { createCustomerSchema, updateCustomerSchema, getCustomerSchema } = require('../schemas/customer.schema')
-const customerService = new CustomerService()
+const { createCategorySchema, updateCategorySchema, getCategorySchema } = require('../schemas/category.schema')
+const categoryService = new CategoryService()
 const { checkRoles } = require('../middlewares/auth.handler')
 
-// Endpoint: GET /customers
+// Endpoint: GET /categories
 router.get('/',
+  async (req, res, next) => {
+    try {
+      const result = await categoryService.find()
+      res.json(result)
+    } catch (error) {
+      next(error)
+    }
+  })
+
+// Endpoint: GET /categories/:id
+router.get('/:id',
+  async (req, res, next) => {
+    try {
+      const { id } = req.params
+      const result = await categoryService.findOne(id)
+      res.json(result)
+    } catch (error) {
+      next(error)
+    }
+  })
+
+// Endpoint: POST /categories
+router.post('/',
+  validatorHandler(createCategorySchema, 'body'),
   passport.authenticate('jwt', { session: false }),
   checkRoles('admin'),
   async (req, res, next) => {
     try {
-      const result = await customerService.find()
-      res.json(result)
-    } catch (error) {
-      next(error)
-    }
-  })
-
-// Endpoint: GET /customers/:id
-router.get('/:id',
-  validatorHandler(getCustomerSchema, 'params'),
-  async (req, res, next) => {
-    try {
-      const { id } = req.params
-      const result = await customerService.findOne(id)
-      res.json(result)
-    } catch (error) {
-      next(error)
-    }
-  })
-
-// Endpoint: POST /customers
-router.post('/',
-  validatorHandler(createCustomerSchema, 'body'),
-  async (req, res, next) => {
-    try {
       const body = req.body
-      const result = await customerService.create(body)
+      const result = await categoryService.create(body)
       res.json(result)
     } catch (error) {
       next(error)
     }
   })
 
-// Endpoint: PUT /customers/:id
+// Endpoint: PUT /categories/:id
 router.put('/:id',
-  validatorHandler(getCustomerSchema, 'params'),
-  validatorHandler(updateCustomerSchema, 'body'),
+  validatorHandler(getCategorySchema, 'params'),
+  validatorHandler(updateCategorySchema, 'body'),
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin'),
   async (req, res, next) => {
     try {
       const { id } = req.params
       const body = req.body
-      const result = await customerService.update(id, body)
+      const result = await categoryService.update(id, body)
       res.json(result)
     } catch (error) {
       next(error)
     }
   })
 
-// Endpoint: DELETE /customers/:id
+// Endpoint: DELETE /categories/:id
 router.delete('/:id',
-  validatorHandler(getCustomerSchema, 'params'),
+  validatorHandler(getCategorySchema, 'params'),
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin'),
   async (req, res, next) => {
     try {
       const { id } = req.params
-      const result = await customerService.delete(id)
+      const result = await categoryService.delete(id)
       res.json(result)
     } catch (error) {
       next(error)

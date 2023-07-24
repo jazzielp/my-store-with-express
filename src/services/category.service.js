@@ -1,18 +1,15 @@
 const boom = require('@hapi/boom')
-const bcrypt = require('bcrypt')
 
 const { models } = require('../lib/sequelize')
 
-class customerService {
+class categoryService {
   async find () {
-    const result = await models.Customer.findAll({
-      include: ['user']
-    })
+    const result = await models.Category.findAll()
     return result
   }
 
   async findOne (id) {
-    const result = await models.Customer.findByPk(id)
+    const result = await models.Category.findByPk(id)
     if (!result) {
       throw boom.notFound('Record not found')
     }
@@ -20,10 +17,7 @@ class customerService {
   }
 
   async create (data) {
-    const user = data.user
-    const passwordHash = await bcrypt.hash(user.password, 10)
-    const newUser = await models.User.create({ ...data.user, password: passwordHash, ...data })
-    const result = await models.Customer.create({ ...data, userId: newUser.id })
+    const result = await models.Category.create(data)
     return result
   }
 
@@ -40,4 +34,4 @@ class customerService {
   }
 }
 
-module.exports = customerService
+module.exports = categoryService

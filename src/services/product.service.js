@@ -4,12 +4,16 @@ const { models } = require('../lib/sequelize')
 
 class productService {
   async find () {
-    const result = await models.Product.findAll()
+    const result = await models.Product.findAll({
+      include: ['category']
+    })
     return result
   }
 
   async findOne (id) {
-    const result = await models.Product.findByPk(id)
+    const result = await models.Product.findByPk(id, {
+      include: ['category']
+    })
     if (!result) {
       throw boom.notFound('Record not found')
     }

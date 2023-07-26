@@ -1,37 +1,27 @@
 const { Model, DataTypes, Sequelize } = require('sequelize')
-const { CATEGORY_TABLE } = require('./category.model')
 
-const PRODUCT_TABLE = 'products'
+const { CUSTOMER_TABLE } = require('./customer.model')
 
-const ProductSchema = {
+const ORDER_TABLE = 'orders'
+
+const OrderSchema = {
   id: {
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
     type: DataTypes.INTEGER
   },
-  name: {
+  date: {
     allowNull: false,
-    type: DataTypes.STRING
+    type: DataTypes.DATE,
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
   },
-  description: {
-    allowNull: false,
-    type: DataTypes.STRING
-  },
-  price: {
-    allowNull: false,
-    type: DataTypes.DECIMAL(10, 2)
-  },
-  image: {
-    allowNull: false,
-    type: DataTypes.STRING
-  },
-  categoryId: {
-    field: 'category_id',
+  customerId: {
+    field: 'customer_id',
     allowNull: false,
     type: DataTypes.INTEGER,
     references: {
-      model: CATEGORY_TABLE,
+      model: CUSTOMER_TABLE,
       key: 'id'
     },
     onUpdate: 'CASCADE',
@@ -52,22 +42,18 @@ const ProductSchema = {
   }
 }
 
-class Product extends Model {
+class Order extends Model {
   static associate (models) {
-    this.belongsTo(models.Category, {
-      as: 'category'
-    })
-    this.hasMany(models.OrderDetail, {
-      as: 'orderDetails',
-      foreignKey: 'productId'
+    this.belongsTo(models.Customer, {
+      as: 'customer'
     })
   }
 
   static config (sequelize) {
     return {
       sequelize,
-      tableName: PRODUCT_TABLE,
-      modelName: 'Product',
+      tableName: ORDER_TABLE,
+      modelName: 'Order',
       timestamps: true,
       createdAt: 'createdAt',
       updatedAt: 'updatedAt'
@@ -75,4 +61,8 @@ class Product extends Model {
   }
 }
 
-module.exports = { Product, ProductSchema, PRODUCT_TABLE }
+module.exports = {
+  Order,
+  OrderSchema,
+  ORDER_TABLE
+}

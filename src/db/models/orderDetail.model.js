@@ -1,41 +1,42 @@
 const { Model, DataTypes, Sequelize } = require('sequelize')
-const { CATEGORY_TABLE } = require('./category.model')
 
-const PRODUCT_TABLE = 'products'
+const { PRODUCT_TABLE } = require('./product.model')
+const { ORDER_TABLE } = require('./order.model')
 
-const ProductSchema = {
+const ORDER_DETAIL_TABLE = 'order_details'
+
+const OrderDetailSchema = {
   id: {
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
     type: DataTypes.INTEGER
   },
-  name: {
-    allowNull: false,
-    type: DataTypes.STRING
-  },
-  description: {
-    allowNull: false,
-    type: DataTypes.STRING
-  },
-  price: {
-    allowNull: false,
-    type: DataTypes.DECIMAL(10, 2)
-  },
-  image: {
-    allowNull: false,
-    type: DataTypes.STRING
-  },
-  categoryId: {
-    field: 'category_id',
+  orderId: {
+    field: 'order_id',
     allowNull: false,
     type: DataTypes.INTEGER,
     references: {
-      model: CATEGORY_TABLE,
+      model: ORDER_TABLE,
       key: 'id'
     },
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE'
+  },
+  productId: {
+    field: 'product_id',
+    allowNull: false,
+    type: DataTypes.INTEGER,
+    references: {
+      model: PRODUCT_TABLE,
+      key: 'id'
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE'
+  },
+  quantity: {
+    allowNull: false,
+    type: DataTypes.INTEGER
   },
   createdAt: {
     allowNull: false,
@@ -52,22 +53,21 @@ const ProductSchema = {
   }
 }
 
-class Product extends Model {
+class OrderDetail extends Model {
   static associate (models) {
-    this.belongsTo(models.Category, {
-      as: 'category'
+    this.belongsTo(models.Order, {
+      as: 'order'
     })
-    this.hasMany(models.OrderDetail, {
-      as: 'orderDetails',
-      foreignKey: 'productId'
+    this.belongsTo(models.Product, {
+      as: 'product'
     })
   }
 
   static config (sequelize) {
     return {
       sequelize,
-      tableName: PRODUCT_TABLE,
-      modelName: 'Product',
+      tableName: ORDER_DETAIL_TABLE,
+      modelName: 'OrderDetail',
       timestamps: true,
       createdAt: 'createdAt',
       updatedAt: 'updatedAt'
@@ -75,4 +75,8 @@ class Product extends Model {
   }
 }
 
-module.exports = { Product, ProductSchema, PRODUCT_TABLE }
+module.exports = {
+  OrderDetail,
+  OrderDetailSchema,
+  ORDER_DETAIL_TABLE
+}

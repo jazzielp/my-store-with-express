@@ -20,8 +20,8 @@ routerApi(app)
 
 app.use(logError)
 app.use(ormErrorHandler)
-app.use(errorHandler)
 app.use(boomErrorHandler)
+app.use(errorHandler)
 
 app.listen(port, () => {
   console.log('Server is running on port ' + port)

@@ -24,6 +24,9 @@ app.use(ormErrorHandler)
 app.use(boomErrorHandler)
 app.use(errorHandler)
 
-app.listen(port, () => {
+// server
+const server = app.listen(port, () => {
   console.log('Server is running on port ' + port)
 })
+
+module.exports = { app, server }

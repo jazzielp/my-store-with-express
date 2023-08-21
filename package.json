@@ -4,9 +4,10 @@
   "description": "This is a practice to create an API in express",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test --verbose --silent --detectOpenHandles",
+    "test": "cross-env NODE_ENV=test jest --verbose --silent --detectOpenHandles",
     "start": "cross-env NODE_ENV=production node src/index.js",
     "dev": "cross-env NODE_ENV=development nodemon src/index.js",
+    "test:watch": "npm run test -- --watchAll",
     "migrations:gen": "sequelize-cli migration:generate --name",
     "migrations:run": "sequelize-cli db:migrate",
     "migrations:undo": "sequelize-cli db:migrate:undo",
@@ -30,11 +31,19 @@
     "sequelize": "^6.32.1"
   },
   "devDependencies": {
+    "jest": "^29.6.3",
     "nodemon": "^3.0.1",
     "sequelize-cli": "^6.6.1",
-    "standard": "^17.1.0"
+    "standard": "^17.1.0",
+    "supertest": "^6.3.3"
   },
   "eslintConfig": {
-    "extends": "./node_modules/standard/eslintrc.json"
+    "extends": "./node_modules/standard/eslintrc.json",
+    "env": {
+      "jest": true
+    }
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }

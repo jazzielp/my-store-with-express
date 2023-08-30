@@ -24,7 +24,6 @@ router.get('/',
 // Endpoint: GET /users/:id
 router.get('/:id',
   validatorHandler(getUserSchema, 'params'),
-  checkRoles('admin'),
   async (req, res, next) => {
     try {
       const { id } = req.params
@@ -42,7 +41,7 @@ router.post('/',
     try {
       const body = req.body
       const result = await userService.create(body)
-      res.json(result)
+      res.status(201).json(result)
     } catch (error) {
       next(error)
     }
@@ -65,13 +64,14 @@ router.put('/:id',
 
 // Endpoint: DELETE /users/:id
 router.delete('/:id',
+  passport.authenticate('jwt', { session: false }),
   checkRoles('admin'),
   validatorHandler(getUserSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params
       const result = await userService.delete(id)
-      res.json(result)
+      res.status(204).json(result)
     } catch (error) {
       next(error)
     }

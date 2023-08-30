@@ -41,7 +41,7 @@ router.post('/',
     try {
       const body = req.body
       const result = await productService.create(body)
-      res.json(result)
+      res.status(201).json(result)
     } catch (error) {
       next(error)
     }

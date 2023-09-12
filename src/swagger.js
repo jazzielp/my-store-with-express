@@ -175,6 +175,8 @@
  *  get:
  *    summary: Get list user
  *    tags: [Users]
+ *    security:
+ *      - JWT: []
  *    responses:
  *      200:
  *        content:
@@ -965,8 +967,12 @@
  */
 
 /**
- * securitySchemes:
-    JWTAuth:
-    type: http
-    scheme: bearer
+ * components:
+ *  securitySchemes:
+ *    JWT:
+ *      type: apiKey
+ *      in: header
+ *      name: Authorization
+ *      description: "Bearer <token>"
+ *
  */

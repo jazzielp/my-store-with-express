@@ -26,6 +26,13 @@
  *        enum:
  *          - admin
  *          - basic
+ *    required:
+ *     - userName
+ *     - firstName
+ *     - lastName
+ *     - email
+ *     - password
+ *
  *   Product:
  *     type: object
  *     properties:
@@ -44,6 +51,9 @@
  *       categoryId:
  *         type: string
  *         description: The product id category
+ *     required:
+ *       - name
+ *       - categoryId
  *   Customer:
  *    type: object
  *    properties:

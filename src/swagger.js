@@ -44,24 +44,33 @@
  *       categoryId:
  *         type: string
  *         description: The product id category
- *    Customer:
- *      type: object
- *      properties:
- *        firstName:
- *          type: string
- *          description: The customer firstName
- *        lastName:
- *          type: string
- *          description: The customer lastName
- *        address:
- *          type: string
- *          description: The customer address
- *        phone:
- *          type: string
- *          description: The customer phone
- *        userId:
- *          type: string
- *          description: The customer userId
+ *   Customer:
+ *    type: object
+ *    properties:
+ *      firstName:
+ *        type: string
+ *        description: The customer firstName
+ *      lastName:
+ *        type: string
+ *        description: The customer lastName
+ *      address:
+ *        type: string
+ *        description: The customer address
+ *      phone:
+ *        type: string
+ *        description: The customer phone
+ *      email:
+ *        type: string
+ *        description: The customer email
+ *      password:
+ *        type: string
+ *        description: The customer password
+ *      userName:
+ *        type: string
+ *        description: The customer userName
+ *    required:
+ *      - firstName
+ *      - lastName
  */
 
 /**

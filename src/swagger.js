@@ -54,6 +54,7 @@
  *     required:
  *       - name
  *       - categoryId
+ *
  *   Customer:
  *    type: object
  *    properties:
@@ -81,6 +82,44 @@
  *    required:
  *      - firstName
  *      - lastName
+ *
+ *   Category:
+ *    type: object
+ *    properties:
+ *      name:
+ *        type: string
+ *        description: The category name
+ *    required:
+ *      - name
+ *
+ *   Order:
+ *    type: object
+ *    properties:
+ *      date:
+ *        type: date
+ *        description: The order date
+ *      customerId:
+ *        type: integer
+ *        description: The order customerId
+ *    required:
+ *      - customerId
+ *
+ *   OrderDetail:
+ *    type: object
+ *    properties:
+ *      orderId:
+ *        type: integer
+ *        description: The order detail orderId
+ *      productId:
+ *        type: integer
+ *        description: The order detail productId
+ *      quantity:
+ *        type: integer
+ *        description: The orderdetail quantity
+ *    required:
+ *      - orderId
+ *      - productId
+ *      - quantity
  */
 
 /**
@@ -91,7 +130,13 @@
  *  - name: Products
  *    description: API to manage products
  *  - name: Customers
- *    description: API to manage customer
+ *    description: API to manage customers
+ *  - name: Categories
+ *    description: API to manage categories
+ *  - name: Orders
+ *    description: API to manage orders
+ *  - name: OrderDetails
+ *    description: API to manage orderDetail
  */
 
 /** .............USER............... */
@@ -510,6 +555,409 @@
  *      responses:
  *        204:
  *          description: Product deleted successfully
+ *        400:
+ *          description: Bad request
+ *        500:
+ *          description: Internal server error
+ */
+
+/** .............CATEGORY............... */
+
+/**
+ * @swagger
+ * /api/categorries:
+ *  post:
+ *    summary: create a new category
+ *    tags: [Categories]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            $ref: '#/components/schemas/Category'
+ *    responses:
+ *      200:
+ *        content:
+ *          application/json:
+ *            example:
+ *              name: Dama
+ *      400:
+ *        description: Bad Request
+ */
+
+/**
+ * @swagger
+ * /api/categories:
+ *  get:
+ *    summary: Get list categories
+ *    tags: [Categories]
+ *    responses:
+ *      200:
+ *        content:
+ *          application/json:
+ *            type: array
+ *            example:
+ *              - id: 1
+ *                name: Damas
+ *      500:
+ *        description: Internet server error
+ */
+
+/**
+ * @swagger
+ * /api/categories/{id}:
+ *  get:
+ *    summary: get a category
+ *    tags: [Categories]
+ *    parameters:
+ *      - name: id
+ *        in: path
+ *        required: true
+ *        description: Category Id
+ *        schema:
+ *          type: integer
+ *        example: 1
+ *    responses:
+ *      200:
+ *        content:
+ *          application/json:
+ *            example:
+ *              id: 1
+ *              name: Damas
+ *      400:
+ *        description: Bad request
+ *      500:
+ *        descriptuion: internal server error
+ */
+
+/**
+ * @swagger
+ * /api/categories/{id}:
+ *  put:
+ *      summary: Update an existing category
+ *      tags: [Categories]
+ *      parameters:
+ *        - name: id
+ *          in: path
+ *          required: true
+ *          description: Category ID to update
+ *          schema:
+ *            type: integer
+ *          example:
+ *            1
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              $ref: '#/components/schemas/Category'
+ *      responses:
+ *        204:
+ *          description: Category updated successfully
+ *        400:
+ *          description: Bad request
+ *        500:
+ *          description: Internal server error
+ */
+
+/**
+ * @swagger
+ * /api/categories/{id}:
+ *  delete:
+ *      summary: delete an existing category
+ *      tags: [Categories]
+ *      parameters:
+ *        - name: id
+ *          in: path
+ *          required: true
+ *          description: Category ID to delete
+ *          schema:
+ *            type: integer
+ *          example:
+ *            1
+ *      responses:
+ *        204:
+ *          description: Category deleted successfully
+ *        400:
+ *          description: Bad request
+ *        500:
+ *          description: Internal server error
+ */
+
+/** .............ORDER............... */
+
+/**
+ * @swagger
+ * /api/orders:
+ *  post:
+ *    summary: create a new order
+ *    tags: [Orders]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            $ref: '#/components/schemas/Order'
+ *    responses:
+ *      200:
+ *        content:
+ *          application/json:
+ *            example:
+ *              date: 01/01/2023
+ *              customerId: 1
+ *      400:
+ *        description: Bad Request
+ */
+
+/**
+ * @swagger
+ * /api/orders:
+ *  get:
+ *    summary: Get list user
+ *    tags: [Orders]
+ *    responses:
+ *      200:
+ *        content:
+ *          application/json:
+ *            type: array
+ *            example:
+ *              id: 1
+ *              date: 01/01/2023
+ *              customer:
+ *               firstName: Juan
+ *               lastName: Perez
+ *               address: Calle #1
+ *               phone: 6684569543
+ *      500:
+ *        description: Internet server error
+ */
+
+/**
+ * @swagger
+ * /api/orders/{id}:
+ *  get:
+ *    summary: get a user
+ *    tags: [Orders]
+ *    parameters:
+ *      - name: id
+ *        in: path
+ *        required: true
+ *        description: Order Id
+ *        schema:
+ *          type: integer
+ *        example: 1
+ *    responses:
+ *      200:
+ *        content:
+ *          application/json:
+ *            example:
+ *              id: 1
+ *              date: 01/01/2023
+ *              customer:
+ *                firstName: Juan
+ *                lastName: Perez
+ *                address: Calle #1
+ *                phone: 6684569543
+ *      400:
+ *        description: Bad request
+ *      500:
+ *        descriptuion: internal server error
+ */
+
+/**
+ * @swagger
+ * /api/orders/{id}:
+ *  put:
+ *      summary: Update an existing order
+ *      tags: [Orders]
+ *      parameters:
+ *        - name: id
+ *          in: path
+ *          required: true
+ *          description: Order ID to update
+ *          schema:
+ *            type: integer
+ *          example:
+ *            1
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              $ref: '#/components/schemas/Order'
+ *      responses:
+ *        204:
+ *          description: Order updated successfully
+ *        400:
+ *          description: Bad request
+ *        500:
+ *          description: Internal server error
+ */
+
+/**
+ * @swagger
+ * /api/orders/{id}:
+ *  delete:
+ *      summary: delete an existing order
+ *      tags: [Orders]
+ *      parameters:
+ *        - name: id
+ *          in: path
+ *          required: true
+ *          description: Order ID to delete
+ *          schema:
+ *            type: integer
+ *          example:
+ *            1
+ *      responses:
+ *        204:
+ *          description: Order deleted successfully
+ *        400:
+ *          description: Bad request
+ *        500:
+ *          description: Internal server error
+ */
+
+/** .............ORDER DETAIL............... */
+
+/**
+ * @swagger
+ * /api/order-detail:
+ *  post:
+ *    summary: create a new order detail
+ *    tags: [OrderDetails]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            $ref: '#/components/schemas/OrderDetail'
+ *    responses:
+ *      200:
+ *        content:
+ *          application/json:
+ *            example:
+ *              orderId: 1
+ *              productId: 1
+ *              quantity: 2
+ *      400:
+ *        description: Bad Request
+ */
+
+/**
+ * @swagger
+ * /api/order-detail:
+ *  get:
+ *    summary: Get list order detail
+ *    tags: [OrderDetails]
+ *    responses:
+ *      200:
+ *        content:
+ *          application/json:
+ *            type: array
+ *            example:
+ *              - id: 1
+ *                order:
+ *                  id: 1
+ *                  date: 10/01/2023
+ *                product:
+ *                  id: 1
+ *                  name: Milk
+ *                  descriprion: Cow milk
+ *                quantity: 3
+ *      500:
+ *        description: Internet server error
+ */
+
+/**
+ * @swagger
+ * /api/order-detail/{id}:
+ *  get:
+ *    summary: get a order detail
+ *    tags: [OrderDetails]
+ *    parameters:
+ *      - name: id
+ *        in: path
+ *        required: true
+ *        description: Order detail id
+ *        schema:
+ *          type: integer
+ *        example: 1
+ *    responses:
+ *      200:
+ *        content:
+ *          application/json:
+ *            type: array
+ *            example:
+ *                - id: 1
+ *                  order:
+ *                    id: 1
+ *                    date: 10/01/2023
+ *                  product:
+ *                    id: 1
+ *                    name: Milk
+ *                    descriprion: Cow milk
+ *                  quantity: 3
+ *      400:
+ *        description: Bad request
+ *      500:
+ *        descriptuion: internal server error
+ */
+
+/**
+ * @swagger
+ * /api/order-detail/{id}:
+ *  put:
+ *      summary: Update an existing order detail
+ *      tags: [OrderDetails]
+ *      parameters:
+ *        - name: id
+ *          in: path
+ *          required: true
+ *          description: Order ID to update
+ *          schema:
+ *            type: integer
+ *          example:
+ *            1
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              $ref: '#/components/schemas/OrderDetail'
+ *      responses:
+ *        204:
+ *          description: Order updated successfully
+ *        400:
+ *          description: Bad request
+ *        500:
+ *          description: Internal server error
+ */
+
+/**
+ * @swagger
+ * /api/order-detail/{id}:
+ *  delete:
+ *      summary: delete an existing order detail
+ *      tags: [OrderDetails]
+ *      parameters:
+ *        - name: id
+ *          in: path
+ *          required: true
+ *          description: Order detail ID to delete
+ *          schema:
+ *            type: integer
+ *          example:
+ *            1
+ *      responses:
+ *        204:
+ *          description: Order detail deleted successfully
  *        400:
  *          description: Bad request
  *        500:
